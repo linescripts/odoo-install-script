@@ -1,4 +1,4 @@
-# Odoo Install Script for Ubuntu 24.04
+# Odoo 18.0 Automated Install Script for Ubuntu 24.04
 
 This script automates the installation of Odoo 18.0 (Community or Enterprise) on **Ubuntu 24.04**, including:
 - Python virtual environment setup (required by Ubuntu 24.04)
@@ -52,7 +52,7 @@ On Ubuntu 24.04, systemd is the native and recommended init system. The original
 
 1. **Download the script:**
    ```bash
-   wget https://raw.githubusercontent.com/linescripts/odoo-install-script/main/install_odoo.sh
+   wget https://raw.githubusercontent.com/linescripts/odoo-install-script/18.0/install_odoo.sh
    ```
 2. **Edit the script variables** (top of the file) as needed:
    - `OE_USER` (system user)
