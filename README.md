@@ -98,7 +98,7 @@ On Ubuntu 24.04, systemd is the native and recommended init system. The original
 
 ## Credits
 - Original script by [Yenthe Van Ginneken](https://github.com/Yenthe666/InstallScript/tree/16.0)
-- Improvements for Ubuntu 24.04 and venv by [Linescripts Softwares]
+- Improvements for Ubuntu 24.04 and venv by [Linescripts Softwares](https://www.linescripts.com)
 
 ---
 
