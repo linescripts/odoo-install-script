@@ -1,5 +1,7 @@
 #!/bin/bash
 ################################################################################
+# Odoo 18 Installation Script for Ubuntu 24.04
+# Author: Linescripts Softwares
 # This script:
 #   1) Installs Odoo 18.0 from source in a Python virtual environment
 #   2) Installs PostgreSQL (16 by default) and creates a PostgreSQL user
