@@ -1,7 +1,8 @@
 #!/bin/bash
 ################################################################################
-# Odoo 18 Installation Script for Ubuntu 24.04
-# Author: Linescripts Softwares
+# Script for installing Odoo 18.0 on Ubuntu 24.04 (all-in-one).
+# Author: Combined/Adapted from Yenthe Van Ginneken + linescripts + community
+################################################################################
 # This script:
 #   1) Installs Odoo 18.0 from source in a Python virtual environment
 #   2) Installs PostgreSQL (16 by default) and creates a PostgreSQL user
@@ -99,6 +100,41 @@ fi
 # Create PostgreSQL user
 echo -e "\n--- Creating PostgreSQL user '${OE_USER}' ---"
 sudo -u postgres createuser -s ${OE_USER} 2>/dev/null || true
+
+#------------------------------------------------------------------------------
+# 5a. Install wkhtmltopdf with QT patches (REQUIRED for PDF reports)
+#------------------------------------------------------------------------------
+echo -e "\n--- Installing wkhtmltopdf with QT patches for PDF generation ---"
+
+# Install dependencies first
+sudo apt-get install -y fontconfig libfontconfig1 libjpeg-turbo8 libx11-6 libxcb1 \
+    libxext6 libxrender1 xfonts-75dpi xfonts-base
+
+# Download and install wkhtmltopdf
+# Note: Using Jammy package for Noble (24.04) as specific Noble package might not be available yet
+WKHTMLTOPDF_URL="https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.jammy_amd64.deb"
+echo "[INFO] Downloading wkhtmltopdf from: ${WKHTMLTOPDF_URL}"
+wget -q -O /tmp/wkhtmltox.deb ${WKHTMLTOPDF_URL}
+
+echo "[INFO] Installing wkhtmltopdf package..."
+sudo dpkg -i /tmp/wkhtmltox.deb
+# Fix any missing dependencies
+sudo apt-get -f install -y
+rm /tmp/wkhtmltox.deb
+
+# Create symbolic links for Odoo to find it
+echo "[INFO] Creating symbolic links..."
+sudo ln -sf /usr/local/bin/wkhtmltopdf /usr/bin/wkhtmltopdf
+sudo ln -sf /usr/local/bin/wkhtmltoimage /usr/bin/wkhtmltoimage
+
+# Verify installation
+echo -e "\n--- Verifying wkhtmltopdf installation ---"
+if command -v wkhtmltopdf &> /dev/null; then
+    wkhtmltopdf --version
+    echo "[SUCCESS] wkhtmltopdf installed successfully!"
+else
+    echo "[WARNING] wkhtmltopdf installation may have failed!"
+fi
 
 #------------------------------------------------------------------------------
 # 6. Create system user "odoo"
